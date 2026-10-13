@@ -252,11 +252,23 @@ test_multiuser_gui 33 OK / 0 KO · test_update_gui 4 OK / 0 KO**
 
 ## ⬆ التحديث التلقائي (GitHub Releases)
 
-يعمل التحديث التلقائي عبر **GitHub Releases**. للتفعيل:
+يعمل التحديث التلقائي عبر **GitHub Releases** — المستودع نشِط الآن على
+`https://github.com/athmanedz1000-droid/Gestion-Stock-Chantier` (عام — لازم عام حتى يعمل الفحص دون مصادقة)،
+ومضبوط افتراضياً في `magasin/updater.py` (`GITHUB_OWNER` / `GITHUB_REPO`).
 
-1. أنشئ مستودعاً مجانياً على GitHub (مثال: `MRXDZ/Gestion-Stock-Chantier`)
-2. ارفع كل إصدار كـ **Release** بـ **tag** يبدأ بـ `v` (مثال: `v2.15.0`) وأرفق ملف `Gestion_De_Stock_Chantier_vX.Y.Z.exe`
-3. اضبط اسم المستودع في `magasin/updater.py` (`GITHUB_OWNER` / `GITHUB_REPO`) — أو من قاعدة البيانات (`update_owner` / `update_repo`)
+### نشر إصدار جديد (خطوات للمطوّر)
+
+بعد بناء EXE جديد (الإصدار يُضبط في `magasin/__init__.py`):
+
+```powershell
+# ارفع Release بالملف (استبدل vX.Y.Z)
+& "C:\Program Files\GitHub CLI\gh.exe" release create "vX.Y.Z" `
+    "releases\Gestion_De_Stock_Chantier_vX.Y.Z.exe" `
+    --repo "athmanedz1000-droid/Gestion-Stock-Chantier" `
+    --title "vX.Y.Z" --notes "ملاحظات الإصدار"
+```
+
+> أو عبر الموقع: **Releases → Draft a new release** → tag `vX.Y.Z` → ارفع ملف EXE.
 
 **كيف يعمل:**
 - عند التشغيل (بعد 6 ثوانٍ، مرة كل 6 ساعات) يتصل بـ `releases/latest` ويقارن الإصدار — **صامت تماماً عند عدم الإنترنت**
