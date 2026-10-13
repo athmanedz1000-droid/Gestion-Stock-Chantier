@@ -1,0 +1,28 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Données locales (JAMAIS poussées)
+data/
+backups/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Binaires / captures
+releases/
+build/
+dist/
+*.exe
+captures/
+*.png
+
+# Éditeurs / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
