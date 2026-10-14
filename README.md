@@ -82,6 +82,7 @@ python build_exe.py --with-data   # يضمّن قاعدة البيانات ال�
 
 | الإصدار | التاريخ | التغييرات |
 |---|---|---|
+| **v2.15.0** | 2026-10-14 | **ملصقات الباركود + المسح بكاميرا الهاتف + توافق كل الماسحات** : وحدة `barcode.py` جديدة — محرك باركود نقي (دون مكتبات إضافية) يُنتج **SVG متّجه** (جودة طباعة ناصعة بأي حجم) لـ **Code128** (أبجدي‑رقمي) و**EAN‑13** (بكشف تلقائي للشيفرة 13 خانة + التحقق من رقم التحكّم) — وحدة `labels.py` — مولّد **أوراق ملصقات** بـ **8 تخطيطات** : 4 أوراق Avery (L7160 3×7، L7163 2×7، L7169 2×4، L7162 4×7) + 4 تذاكر حرارية (50×25، 50×30، 40×30، 100×50 مم بتحديد `@page` للطابعة الحرارية)، كل ملصق = **باركود + الكود + الوصف + الموقع** (خيارات) + **خطوط قصّ** + **نسخ متعددة** + كسر صفحات A4 تلقائي — نافذة **«🏷 ملصقات»** (النطاق : المحدَّد/المعروض/الكل + القالب + النسخ + خيارات المحتوى) — وحدة `scanner.py` — **مسح بكاميرا الهاتف** عبر الشبكة المحلية : خادم **HTTPS بشهادة ذاتية مضمّنة** (لأن المتصفحات تمنع الكاميرا على `http://`) + كشف IP الشبكة تلقائياً + صفحة هاتف بكاميرا (`html5-qrcode`) + استقبال الكود (`POST /scan`) + توليد **QR** للزاوج — نافذة **«📷 مسح بالهاتف»** (QR + الرابط + الحالة + استقبال الكود لحظياً → **يُحدّد المادة كما يفعل قارئ الباركود تماماً**) — **توافق كل أنواع ماسحات الباركود** (USB/بلوتوث = لوحة مفاتيح + Enter، بحث فوري بالكود) — **27 مفتاح ترجمة** في اللغات الثلاث — **29 اختبار وحدة + 9 اختبار GUI** — **19 EXE** من v2.1.0 إلى v2.15.0 |
 | **v2.14.0** | 2026-10-13 | **التحديث التلقائي من الإنترنت (GitHub Releases)** : وحدة `updater.py` جديدة (stdlib فقط، دون مكتبات) تفحص **GitHub API** `releases/latest` وتقارن أرقام الإصدارات — **فحص تلقائي صامت عند التشغيل** (بعد 6 ثوانٍ، في خلفية، **مرة كل 6 ساعات**، **يفشل بصمت عند عدم الإنترنت** ولا يعطّل البرنامج أبداً) + زر «⬆ تحديث» للفحص اليدوي (يفصل بين «أنت على أحدث إصدار» و«تعذر الفحص/لا اتصال») — **نافذة التحديث** تعرض الإصدار الجديد + رقمك الحالي + **ملاحظات الإصدار** + **شريط تحميل** بنسب مئوية — **استبدال صامت** يحلّ مشكلة قفل ملف EXE: يحمّل النسخة إلى `updates\`، يكتب سكربت `updater.bat` ينتظر خروج البرنامج (بـ PID، بحد أقصى 90 ثانية)، يُنسخ القديم كـ `.bak`، يستبدل بالجديد، **يعيد التشغيل تلقائياً**، ثم يحذف نفسه — **زر «فتح صفحة الإصدار»** احتياطي + يعمل في وضع التطوير (يفتح المتصفح بدل الاستبدال) — **إعدادات**: مفتاح «فحص التحديثات عند التشغيل» + عرض الإصدار الحالي — قابل للتهيئة (`update_owner`/`update_repo`) — **32 اختبار** (محاكاة الشبكة: مقارنة إصدارات، فحص، تحميل، إلغاء، سكربت) + 4 GUI — **18 EXE** من v2.1.0 إلى v2.14.0 |
 | **v2.13.0** | 2026-10-13 | **تعدد المستخدمين (Multi-utilisateurs)** : **شاشة تسجيل دخول** إلزامية عند بدء البرنامج (اسم المستخدم + كلمة المرور) مع **حشو PBKDF2-HMAC-SHA256 + salt فريد لكل مستخدم** (لا كلمة مرور في الخامة أبداً) — **حساب admin/admin يُنشأ تلقائياً عند أول تشغيل** مع تنبيه بتغيير كلمة المرور — **4 صلاحيات (rôles)** بمصفوفة صلاحيات دقيقة : **مدير admin** (كل شيء + إدارة المستخدمين) · **رئيس فريق manager** (كل العمليات + الاستيراد + النسخ الاحتياطي + الإعدادات، دون إدارة المستخدمين) · **أمين مخزن operator** (إدخال السندات BTR/BSM/BRM + إضافة/تعديل المواد، دون حذف/استيراد/إعدادات) · **اطّلاع viewer** (قراءة + تصدير + تقارير فقط) — **الشريط العلوي يُظهر «👤 المستخدم (الصفة)» + زر خروج ⎋** (تأكيد ثم إعادة تشغيل البرنامج على شاشة الدخول) — **الأزرار تُعطَّل تلقائياً حسب الصلاحية** (إضافة/تعديل/حذف/سندات/استيراد/جرد/نسخ احتياطي/إعدادات) مع **فحص إضافي `_require`** يمنع التخطي عبر الاختصارات — **نافذة «إدارة المستخدمين»** (admin فقط: الإعدادات ← إدارة المستخدمين) : قائمة (معرّف/اسم/صفة/مفعّل/تاريخ)، إضافة/تعديل/تعطيل-تفعيل/إعادة تعيين كلمة المرور، **حماية آخر مدير** (لا يمكن تعطيله أو تخفيض صلاحته ما دام آخر مدير مفعّل) — **تأريخ كل حركة بالمنفّذ** عبر trigger SQL (`utilisateur`) مع عمود «المنفّذ» في نافذة التاريخ — تبويب الإعدادات يظهر لـ admin فقط — **69 اختبار DB + 33 اختبار GUI** (تسجيل دخول FR/AR، صلاحيات admin/viewer، إدارة المستخدمين) — **17 EXE** من v2.1.0 إلى v2.13.0 |
 | **v2.12.0** | 2026-10-13 | **six nouvelles fonctions complètes** : **① Inventaire physique (INV)** — bouton 📋 «جرد», charge les articles d'un magasin, on saisit le **stock RÉEL** compté, l'**écart** se calcule en direct (ligne rougie si ≠ 0), résumé « comptées/total · nb écarts », validation avec confirmation → **applique les écarts au stock** + génère mouvements ENTREE/SORTIE (note « INV n° »), historique des inventaires passés + impression du rapport d'écart ; **② Seuil d'alerte + valorisation par article** — champs **«حد التنبيه» (stock_min)** et **«سعر الشراء» (prix)** dans la fiche article, alerte **par article** (sinon seuil global), **carte «💰 قيمة المخزون»** dans les stats + tableau détaillé des articles sous le seuil, valorisation **SUM(stock × prix) en DA** (l'argent additionne les unités, jamais les quantités) ; **③ Sauvegardes & restauration** — bouton 🛡 «النسخ الاحتياطي», liste des sauvegardes (nom/date/taille), **restauration** avec confirmation + **copie de sécurité automatique** de l'état courant + validation du fichier SQLite puis rechargement ; **④ Rapports imprimables** — bouton 🖨 «التقارير», choix **État du stock** (par magasin ou tous) ou **Mouvements** (période du/au + type entrée/sortie), génère un **HTML A4** ouvert dans le navigateur (imprimer / PDF) avec en-tête société + pied ; **⑤ Recherche unifiée des bons** — bouton 🔎 «بحث عن سند», cherche un **n° / code / date** dans **BTR + BSM + BRM** et **ouvre le bon** correspondant pré-rempli ; **⑥ Filtres sur l'historique** — l'historique des mouvements accepte **du / au + type (tous/entrée/sortie)** avec boutons Appliquer/Réinitialiser + impression ; **code-barres** : la barre de recherche est **auto-focalisée** et **Entrée sélectionne l'article au code exact** (le dèche scanne + Entrée) ; **UX** : libellé «المخزن» distinct de «المخزن المراد جرده» dans les rapports — **37 tests données + 37 DB + 102 impression + 14 GUI**, **16 EXE** de v2.1.0 à v2.12.0 |
@@ -183,6 +184,12 @@ Magasin_App\
 │  ├─ ui.py              الشاشة الرئيسية
 │  ├─ dialogs.py         النوافذ المنبثقة (نموذج، إعدادات، هوية، ورش، معاينة، حول…)
 │  ├─ printing.py        🖨 توليد HTML لطباعة السندات (ترويسة المؤسسة + توقيعات)
+│  ├─ updater.py         ⬆ التحديث التلقائي من GitHub Releases (stdlib فقط)
+│  ├─ barcode.py         🏷 محرك الباركود (Code128 + EAN-13 → SVG متّجه)
+│  ├─ labels.py          🏷 أوراق الملصقات (Avery A4 + تذاكر حرارية)
+│  ├─ scanner.py         📷 مسح بكاميرا الهاتف (خادم HTTPS محلي + QR)
+│  ├─ scan_cert.pem      شهادة HTTPS ذاتية (مضمّنة، للخادم المحلي)
+│  ├─ scan_key.pem       مفتاح الشهادة
 │  └─ gui_kit.py         الخطوط واللوحة اللونية
 ├─ assets\               الأيقونة + ملف بيانات نسخة Windows (تلقائي)
 ├─ data\                 قاعدة البيانات + النسخ الاحتياطية (تُنشأ تلقائياً)
@@ -200,6 +207,11 @@ Magasin_App\
 ├─ test_ui.py            اختبار الواجهة بلقطات شاشة
 ├─ test_dialogs.py       اختبار النوافذ المنبثقة
 ├─ test_exe.py           اختبار EXE المبني ( lancement + capture )
+├─ test_updater.py       اختبار التحديث التلقائي (32 اختبار)
+├─ test_multiuser.py     اختبار تعدد المستخدمين (69 اختبار)
+├─ test_barcode_labels.py اختبار الباركود + الملصقات + خادم المسح (29 اختبار)
+├─ test_barcode_labels_gui.py اختبار نافذتَي الملصقات والمسح باللقطات
+├─ gen_scan_cert.py      توليد شهادة HTTPS الذاتية (مرة واحدة)
 ├─ run.bat               مشغّل بضغطة واحدة (وضع المصدر)
 ├─ requirements.txt      المتطلبات
 └─ README.md             هذا الملف
@@ -279,4 +291,4 @@ test_multiuser_gui 33 OK / 0 KO · test_update_gui 4 OK / 0 KO**
 
 ---
 
-*الإصدار 2.14.0 — أُنجز بعناية احتراماً للعمل الأصلي للمطور DEBBACHE ATHMANE.*
+*الإصدار 2.15.0 — أُنجز بعناية احتراماً للعمل الأصلي للمطور DEBBACHE ATHMANE.*
